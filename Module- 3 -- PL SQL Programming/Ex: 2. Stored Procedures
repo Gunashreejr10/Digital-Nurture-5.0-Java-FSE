@@ -1,0 +1,61 @@
+
+Scenario 1: Monthly Interest Process
+This procedure selects all savings accounts and increases their balance by 1%.
+
+SQL
+CREATE OR REPLACE PROCEDURE ProcessMonthlyInterest IS
+BEGIN
+   FOR rec IN (SELECT account_id, balance FROM accounts WHERE account_type = 'Savings') LOOP
+      UPDATE accounts
+      SET balance = rec.balance * 1.01
+      WHERE account_id = rec.account_id;
+   END LOOP;
+   COMMIT;
+END;
+
+
+
+Scenario 2: Employee Bonus Scheme
+This procedure takes a department ID and a bonus percentage as parameters, then updates the salary for those specific employees.
+
+SQL
+CREATE OR REPLACE PROCEDURE UpdateEmployeeBonus (
+   p_dept_id IN NUMBER,
+   p_bonus_percent IN NUMBER
+) IS
+BEGIN
+   -- Calculate new salary by adding the bonus percentage to the current salary
+   UPDATE employees
+   SET salary = salary + (salary * (p_bonus_percent / 100))
+   WHERE department_id = p_dept_id;
+   
+   COMMIT;
+END;
+
+
+Scenario 3: Fund Transfer with Balance Check
+This procedure transfers money between two accounts. It checks if the source account has enough money before making the transfer and prints an error if funds are insufficient.
+
+SQL
+CREATE OR REPLACE PROCEDURE TransferFunds (
+   p_from_account IN NUMBER,
+   p_to_account   IN NUMBER,
+   p_amount       IN NUMBER
+) IS
+   v_balance NUMBER;
+BEGIN
+   -- Get the current balance of the source account
+   SELECT balance INTO v_balance FROM accounts WHERE account_id = p_from_account;
+
+   IF v_balance >= p_amount THEN
+      -- Deduct from source account
+      UPDATE accounts SET balance = balance - p_amount WHERE account_id = p_from_account;
+      
+      -- Add to destination account
+      UPDATE accounts SET balance = balance + p_amount WHERE account_id = p_to_account;
+      
+      COMMIT;
+   ELSE
+      DBMS_OUTPUT.PUT_LINE('Transfer failed: Insufficient balance.');
+   END IF;
+END;
