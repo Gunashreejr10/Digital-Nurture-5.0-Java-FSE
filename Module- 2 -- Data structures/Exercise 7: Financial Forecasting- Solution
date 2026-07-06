@@ -1,0 +1,58 @@
+
+
+class Forecast {
+    private double presentValue;
+    private double growthRate;
+    private int years;
+
+    public Forecast(double presentValue, double growthRate, int years) {
+        this.presentValue = presentValue;
+        this.growthRate = growthRate;
+        this.years = years;
+    }
+
+    public double getPresentValue() {
+        return presentValue;
+    }
+
+    public double getGrowthRate() {
+        return growthRate;
+    }
+
+    public int getYears() {
+        return years;
+    }
+
+    @Override
+    public String toString() {
+        return "Forecast{" +
+                "presentValue=" + presentValue +
+                ", growthRate=" + growthRate +
+                ", years=" + years +
+                '}';
+    }
+}
+
+class FinancialCalculator {
+    public static double calculateFutureValue(double presentValue, double growthRate, int years) {
+        if (years == 0) {
+            return presentValue;
+        }
+        return calculateFutureValue(presentValue, growthRate, years - 1) * (1 + growthRate);
+    }
+}
+
+public class FinancialForecasting {
+    public static void main(String[] args) {
+        Forecast forecast = new Forecast(1000, 0.05, 10);
+
+        double result = FinancialCalculator.calculateFutureValue(
+                forecast.getPresentValue(),
+                forecast.getGrowthRate(),
+                forecast.getYears()
+        );
+
+        System.out.println(forecast);
+        System.out.println("Predicted Future Value: " + result);
+    }
+}
