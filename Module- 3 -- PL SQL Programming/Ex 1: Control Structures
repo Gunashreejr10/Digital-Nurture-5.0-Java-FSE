@@ -1,0 +1,41 @@
+
+Scenario 1: Age-Based Interest Discount
+This block loops through customers, checks if their age is above 60, and reduces their loan interest rate by 1%.
+
+SQL
+BEGIN
+   FOR rec IN (SELECT customer_id, interest_rate FROM customers WHERE age > 60) LOOP
+      UPDATE customers
+      SET interest_rate = rec.interest_rate - 1
+      WHERE customer_id = rec.customer_id;
+   END LOOP;
+   COMMIT;
+END;
+/
+
+
+Scenario 2: Promote to VIP Status
+This block iterates through all customers and sets the IsVIP flag to 'Y' (or TRUE) for anyone with a balance greater than $10,000.
+
+SQL
+BEGIN
+   FOR rec IN (SELECT customer_id FROM customers WHERE balance > 10000) LOOP
+      UPDATE customers
+      SET IsVIP = 'Y' -- Using 'Y' as standard SQL databases often use CHAR/VARCHAR for flags
+      WHERE customer_id = rec.customer_id;
+   END LOOP;
+   COMMIT;
+END;
+/
+
+
+Scenario 3: Loan Due Reminders
+This block finds loans that are due within the next 30 days and prints a reminder message to the console.
+
+SQL
+BEGIN
+   FOR rec IN (SELECT customer_id, loan_id, due_date FROM loans WHERE due_date BETWEEN SYSDATE AND SYSDATE + 30) LOOP
+      DBMS_OUTPUT.PUT_LINE('Reminder: Customer ' || rec.customer_id || ', your loan ' || rec.loan_id || ' is due on ' || rec.due_date);
+   END LOOP;
+END;
+/
