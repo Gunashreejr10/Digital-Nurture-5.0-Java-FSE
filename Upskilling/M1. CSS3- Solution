@@ -1,0 +1,367 @@
+
+1. Why CSS? Inline vs. Internal vs. External 
+
+  index.html 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+  <meta charset="UTF-8"> 
+  <title>Local Community Event Portal</title> 
+ 
+  <!-- Internal (embedded) style --> 
+  <style> 
+    body { 
+      background-color: #f4f4f4; 
+    } 
+  </style> 
+ 
+  <!-- External stylesheet --> 
+  <link rel="stylesheet" href="styles.css"> 
+</head> 
+<body> 
+ 
+  <!-- Inline style --> 
+  <h1 style="color: red;">Welcome to the Community Event Portal</h1> 
+ 
+  <h2>Upcoming Events</h2> 
+ 
+</body> 
+</html> 
+styles.css 
+/* Header styles */ 
+h1 { 
+  font-size: 32px; 
+} 
+ 
+/* Body/reset styles */ 
+body { 
+  margin: 0; 
+  padding: 0; 
+} 
+This shows all three CSS methods: inline (on the h1), internal (the <style> block in the head 
+for the background), and external (the linked styles.css file, which is where reusable styles 
+should generally live). 
+
+  
+  2. CSS Syntax and Comments 
+styles.css (continued) 
+/* ============================ 
+Base Reset 
+============================ */ 
+* { 
+margin: 0; 
+padding: 0; 
+box-sizing: border-box; 
+} 
+/* ============================ 
+Navigation Styles 
+============================ */ 
+nav { 
+background-color: #333; 
+padding: 10px 20px; 
+} 
+/* ============================ 
+Call To Action Button 
+============================ */ 
+/* Style for main CTA button */ 
+.cta-button { 
+background-color: #007BFF; 
+color: white; 
+padding: 10px 20px; 
+border: none; 
+border-radius: 4px; 
+cursor: pointer; 
+} 
+.cta-button:hover { 
+background-color: #0056b3; 
+} 
+Good CSS hygiene here: consistent 2-space indentation, one rule per line, and comment 
+banners that section off the file so anyone joining the project can scan it quickly. 
+
+  
+  3. Selectors Playground 
+/* Universal selector - reset margin/padding */ 
+* { 
+margin: 0; 
+padding: 0; 
+} 
+/* Element selector - all h2 headings */ 
+h2 { 
+color: #2c3e50; 
+font-size: 24px; 
+} 
+/* ID selector - the main banner */ 
+#mainHeader { 
+background-color: #007BFF; 
+color: white; 
+padding: 20px; 
+text-align: center; 
+} 
+/* Class selector - event containers */ 
+.eventCard { 
+background-color: #fff; 
+border: 1px solid #ddd; 
+border-radius: 6px; 
+padding: 15px; 
+margin-bottom: 15px; 
+} 
+/* Grouping selector */ 
+h3, p { 
+font-family: Arial, sans-serif; 
+line-height: 1.5; 
+} 
+Matching HTML 
+<header id="mainHeader"> 
+<h1>City Events Hub</h1> 
+</header> 
+<div class="eventCard"> 
+<h3>Summer Music Festival</h3> 
+<p>Join us in the park this Saturday for live music and food trucks.</p> 
+</div> 
+
+  
+  4. Color & Background Styling 
+/* HEX and RGBA colors */ 
+body { 
+color: #222222; 
+background-color: #f9f9f9; 
+} 
+.eventCard { 
+background-color: rgba(0, 123, 255, 0.1); 
+color: rgba(0, 0, 0, 0.85); 
+} 
+/* Background image with fallback color */ 
+body { 
+background-color: #cccccc; /* fallback if image fails to load */ 
+background-image: url("images/city-banner.jpg"); 
+background-size: cover; 
+background-position: center; 
+background-repeat: no-repeat; 
+} 
+/* Gradient section headers */ 
+.section-header { 
+background: linear-gradient(to right, #007BFF, #00c6ff); 
+color: white; 
+padding: 15px; 
+text-align: center; 
+} 
+
+
+5. Typography: Fonts and Text 
+In the HTML head 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" 
+rel="stylesheet"> 
+Or with @import at the top of styles.css: 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap'); 
+CSS 
+body { 
+  font-family: 'Poppins', Arial, sans-serif; 
+} 
+ 
+h1 { 
+  font-size: 36px; 
+  font-weight: 600; 
+  font-style: normal; 
+} 
+ 
+.eventCard p { 
+  font-size: 16px; 
+  font-style: italic; 
+  text-align: justify; 
+  letter-spacing: 0.3px; 
+  line-height: 1.6; 
+} 
+ 
+.section-header { 
+  text-transform: uppercase; 
+} 
+
+
+6. Link and List Styling 
+/* Pseudo-classes for links */ 
+a:link { 
+  color: #007BFF; 
+  text-decoration: none; 
+} 
+ 
+a:visited { 
+  color: #6c757d; 
+} 
+ 
+a:hover { 
+  color: #0056b3; 
+  text-decoration: underline; 
+} 
+ 
+a:active { 
+  color: #003d80; 
+} 
+ 
+/* Navigation list - remove bullets */ 
+nav ul { 
+  list-style-type: none; 
+  list-style-position: outside; 
+  margin: 0; 
+  padding: 0; 
+} 
+ 
+nav ul li { 
+  display: inline-block; 
+  padding: 10px 15px; 
+  margin-right: 5px; 
+} 
+ 
+/* General list styling */ 
+.event-list li { 
+  list-style-type: square; 
+  padding: 5px 0; 
+  margin-left: 20px; 
+} 
+
+
+7. Table Styling 
+HTML 
+<table class="admin-table"> 
+  <tr> 
+    <th>Event</th> 
+    <th>Date</th> 
+    <th>Location</th> 
+  </tr> 
+  <tr> 
+    <td>Music Festival</td> 
+    <td>July 15</td> 
+    <td>Central Park</td> 
+  </tr> 
+  <tr> 
+    <td>Food Fair</td> 
+    <td>July 22</td> 
+    <td>Main Square</td> 
+  </tr> 
+</table> 
+CSS 
+.admin-table { 
+  width: 100%; 
+border-collapse: collapse; 
+text-align: center; 
+} 
+.admin-table th, 
+.admin-table td { 
+border: 1px solid #ccc; 
+padding: 10px; 
+} 
+.admin-table th { 
+background-color: #007BFF; 
+color: white; 
+} 
+/* Zebra striping */ 
+.admin-table tr:nth-child(even) { 
+background-color: #f2f2f2; 
+} 
+
+
+8. Box Model & Layout Control 
+.eventCard { 
+border: 2px solid #007BFF; 
+padding: 20px; 
+margin: 15px auto; 
+outline: none; 
+} 
+/* Highlight a selected form field */ 
+input:focus { 
+outline: 2px solid orange; 
+} 
+/* visibility vs display comparison */ 
+.hidden-but-takes-space { 
+visibility: hidden; /* element is invisible but still occupies layout space */ 
+} 
+.removed-from-layout { 
+display: none; /* element is invisible and takes up no space at all */ 
+} 
+Open Chrome DevTools (right-click → Inspect → Computed/Box Model tab) on .eventCard to 
+see the margin, border, padding, and content box drawn visually, and try dragging the values 
+live to see how spacing changes. 
+
+  
+  9. Multiple Columns in Text 
+HTML 
+<section class="bulletin"> 
+<h2>Community Bulletin</h2> 
+<p> 
+The city council has announced new plans for the downtown renovation 
+project, including expanded green spaces, a farmers market pavilion, 
+and improved pedestrian pathways connecting the library to the park... 
+</p> 
+</section> 
+CSS 
+.bulletin p { 
+column-count: 2; 
+column-gap: 30px; 
+column-rule: 1px solid gray; 
+} 
+
+
+10. Responsive Web Design with Media Queries 
+/* Base (desktop-first) styles */ 
+nav ul li { 
+display: inline-block; 
+} 
+.eventCard img { 
+width: 100%; 
+max-width: 400px; 
+} 
+.hero { 
+height: 60vh; 
+width: 100%; 
+} 
+/* Media query for screens smaller than 768px */ 
+@media (max-width: 768px) { 
+nav ul { 
+    display: flex; 
+    flex-direction: column; 
+  } 
+ 
+  nav ul li { 
+    display: block; 
+    width: 100%; 
+  } 
+ 
+  .eventCard img { 
+    max-width: 100%; 
+  } 
+ 
+  h1 { 
+    font-size: 24px; 
+  } 
+ 
+  p { 
+    font-size: 14px; 
+  } 
+} 
+Bonus: Flexbox layout for event cards 
+.event-grid { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 20px; 
+} 
+ 
+.eventCard { 
+  flex: 1 1 300px; 
+} 
+
+
+11. Debug and Test with Dev Tools and VS Code 
+This one is a workflow exercise rather than code, so here's what to actually do: 
+Open Chrome DevTools with F12 or Ctrl+Shift+I (Cmd+Option+I on Mac). 
+Click the device toolbar icon (or Ctrl+Shift+M) to simulate phones, tablets, and desktops, and 
+test the breakpoint from Exercise 10 by resizing. 
+Use the Elements panel to click on any component (like .eventCard) and see its live CSS 
+rules in the Styles pane; you can toggle properties on/off or edit values directly and watch the 
+page update in real time. 
+Open the Network tab, reload the page, and confirm styles.css shows a 200 status, so you 
+know the external stylesheet actually loaded rather than silently failing. 
+In VS Code, install the Live Server extension so you can right-click index.html and choose 
+"Open with Live Server" — this auto-refreshes the browser every time you save a CSS change, 
+which speeds up this whole debugging loop. 
+Gunashree V 
+111623102066 
+RMKCET 
