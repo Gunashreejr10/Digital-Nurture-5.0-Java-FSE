@@ -1,0 +1,387 @@
+
+MODULE 1:  HTML 
+
+index.html 
+HTML 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <title>Local Community Event Portal</title> 
+    <style> 
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+        } 
+        nav { 
+            background: #2c3e50; 
+            padding: 10px; 
+        } 
+        nav a { 
+            color: white; 
+            margin-right: 15px; 
+            text-decoration: none; 
+            font-weight: bold; 
+        } 
+        nav a:hover { 
+            text-decoration: underline; 
+        } 
+        section { 
+            padding: 20px; 
+            border-bottom: 1px solid #ddd; 
+        } 
+        #welcomeBanner { 
+            background-color: #3498db; 
+            color: white; 
+            padding: 15px; 
+            border-radius: 5px; 
+        } 
+        .highlight { 
+            background-color: yellow; 
+            font-weight: bold; 
+        } 
+        table { 
+            border-collapse: collapse; 
+            margin-top: 10px; 
+        } 
+        td { 
+            padding: 10px; 
+            text-align: center; 
+        } 
+        .imgBorder { 
+            border: 3px solid #2c3e50; 
+            border-radius: 4px; 
+            width: 150px; 
+        } 
+        form { 
+            max-width: 400px; 
+        } 
+        form label { 
+            display: block; 
+            margin-top: 10px; 
+        } 
+        form input, form select, form textarea { 
+            width: 100%; 
+            padding: 6px; 
+            margin-top: 4px; 
+        } 
+        footer { 
+            background: #2c3e50; 
+            color: white; 
+            text-align: center; 
+            padding: 10px; 
+        } 
+    </style> 
+</head> 
+<body> 
+ 
+    <nav> 
+        <a href="#home">Home</a> 
+        <a href="#events">Events</a> 
+        <a href="#contact">Contact</a> 
+        <a href="help.html" target="_blank">Help</a> 
+    </nav> 
+ 
+    <main> 
+        <section id="home"> 
+            <div id="welcomeBanner"> 
+                Welcome back, resident!  
+                <span style="color:red; font-weight:bold;">Special Offer: Free entry to this month's 
+fair!</span> 
+            </div> 
+            <p>Check out our <span class="highlight">upcoming community events</span> 
+below.</p> 
+        </section> 
+ 
+        <section id="events"> 
+            <h2>Past Event Gallery</h2> 
+            <table> 
+                <tr> 
+                    <td> 
+                        <img src="event1.jpg" alt="Summer Fest" title="Summer Fest 2025" 
+class="imgBorder" ondblclick="enlargeImage(this)"> 
+                        <br>Summer Fest 
+                    </td> 
+                    <td> 
+                        <img src="event2.jpg" alt="Food Fair" title="Food Fair 2025" class="imgBorder" 
+ondblclick="enlargeImage(this)"> 
+                        <br>Food Fair 
+                    </td> 
+                    <td> 
+                        <img src="event3.jpg" alt="Music Night" title="Music Night 2025" 
+class="imgBorder" ondblclick="enlargeImage(this)"> 
+                        <br>Music Night 
+                    </td> 
+                </tr> 
+                <tr> 
+                    <td> 
+                        <img src="event4.jpg" alt="Charity Run" title="Charity Run 2025" 
+class="imgBorder" ondblclick="enlargeImage(this)"> 
+                        <br>Charity Run 
+                    </td> 
+                    <td> 
+                        <img src="event5.jpg" alt="Art Show" title="Art Show 2025" class="imgBorder" 
+ondblclick="enlargeImage(this)"> 
+                        <br>Art Show 
+                    </td> 
+                    <td> 
+                        <img src="event6.jpg" alt="Book Fair" title="Book Fair 2025" class="imgBorder" 
+ondblclick="enlargeImage(this)"> 
+                        <br>Book Fair 
+                    </td> 
+                </tr> 
+            </table> 
+ 
+            <h2>Event Registration</h2> 
+            <form id="regForm" onsubmit="return showConfirmation()"> 
+                <label for="name">Name</label> 
+                <input type="text" id="name" placeholder="Enter your name" required autofocus> 
+ 
+                <label for="email">Email</label> 
+                <input type="email" id="email" placeholder="Enter your email" required> 
+ 
+                <label for="phone">Phone</label> 
+                <input type="text" id="phone" placeholder="Enter phone number" 
+onblur="validatePhone()"> 
+                <span id="phoneError" style="color:red;"></span> 
+ 
+                <label for="date">Event Date</label> 
+                <input type="date" id="date" required> 
+ 
+                <label for="eventType">Event Type</label> 
+                <select id="eventType" onchange="showFee()"> 
+                    <option value="">-- Select --</option> 
+                    <option value="fair" data-fee="Free">Community Fair</option> 
+                    <option value="run" data-fee="$10">Charity Run</option> 
+                    <option value="workshop" data-fee="$25">Workshop</option> 
+                </select> 
+                <p id="feeDisplay"></p> 
+ 
+                <label for="message">Message</label> 
+                <textarea id="message" rows="4" placeholder="Any special requests?" 
+onkeyup="countChars()"></textarea> 
+                <p>Characters typed: <span id="charCount">0</span></p> 
+ 
+                <button type="submit" onclick="confirmClick()">Register</button> 
+                <output id="confirmOutput"></output> 
+            </form> 
+        </section> 
+ 
+        <section> 
+            <h2>Event Promo Video</h2> 
+            <video width="400" controls oncanplay="videoReady()"> 
+                <source src="promo.mp4" type="video/mp4"> 
+                Your browser does not support video. 
+            </video> 
+            <p id="videoMsg"></p> 
+        </section> 
+ 
+        <section> 
+            <h2>Preferences</h2> 
+            <button onclick="savePreference()">Save Preference</button> 
+            <button onclick="clearPreference()">Clear Preferences</button> 
+            <p id="prefMsg"></p> 
+        </section> 
+ 
+        <section> 
+            <h2>Find Nearby Events</h2> 
+            <button onclick="findLocation()">Find Nearby Events</button> 
+            <p id="locationMsg"></p> 
+        </section> 
+ 
+        <section id="contact"> 
+            <h2>Contact Us</h2> 
+            <p>Email: contact@cityevents.gov | Phone: 555-1234</p> 
+        </section> 
+    </main> 
+ 
+    <footer> 
+        &copy; 2026 City Community Events. All rights reserved. 
+    </footer> 
+ 
+    <script> 
+        
+
+// Exercise 5: form confirmation 
+        function showConfirmation() { 
+            document.getElementById("confirmOutput").textContent = "Registration submitted 
+successfully!"; 
+            return false; // prevent actual page reload for demo 
+        } 
+ 
+ 
+// Exercise 6: phone validation on blur 
+        function validatePhone() { 
+            var phone = document.getElementById("phone").value; 
+            var errorBox = document.getElementById("phoneError"); 
+            var isValid = /^[0-9]{10}$/.test(phone); 
+            errorBox.textContent = isValid ? "" : "Enter a valid 10-digit phone number."; 
+        } 
+ 
+       
+// Exercise 6: dropdown change shows fee 
+        function showFee() { 
+            var select = document.getElementById("eventType"); 
+            var fee = select.options[select.selectedIndex].getAttribute("data-fee"); 
+            document.getElementById("feeDisplay").textContent = fee ? "Fee: " + fee : ""; 
+        } 
+ 
+        // Exercise 6: click confirmation 
+        function confirmClick() { 
+            alert("Thanks! Your registration is being processed."); 
+        } 
+ 
+        // Exercise 6: double-click to enlarge image 
+        function enlargeImage(img) { 
+            img.style.width = img.style.width === "300px" ? "150px" : "300px"; 
+        } 
+ 
+        // Exercise 6: keyboard event to count characters 
+        function countChars() { 
+            var text = document.getElementById("message").value; 
+            document.getElementById("charCount").textContent = text.length; 
+        } 
+ 
+        // Exercise 7: video ready event 
+        function videoReady() { 
+            document.getElementById("videoMsg").textContent = "Video ready to play."; 
+        } 
+ 
+        // Exercise 7: warn before leaving unfinished form 
+        window.onbeforeunload = function () { 
+            var name = document.getElementById("name").value; 
+            if (name.trim() !== "") { 
+                return "You have unsaved registration data. Are you sure you want to leave?"; 
+            } 
+        }; 
+ 
+        // Exercise 8: localStorage preferences 
+        function savePreference() { 
+            var eventType = document.getElementById("eventType").value; 
+            localStorage.setItem("preferredEvent", eventType); 
+            sessionStorage.setItem("sessionEvent", eventType); 
+            document.getElementById("prefMsg").textContent = "Preference saved: " + eventType; 
+        } 
+ 
+        function clearPreference() { 
+            localStorage.removeItem("preferredEvent"); 
+            sessionStorage.removeItem("sessionEvent"); 
+            document.getElementById("prefMsg").textContent = "Preferences cleared."; 
+        } 
+ 
+        window.onload = function () { 
+            var saved = localStorage.getItem("preferredEvent"); 
+            if (saved) { 
+                document.getElementById("eventType").value = saved; 
+                showFee(); 
+            } 
+        }; 
+  // Exercise 9: geolocation 
+        function findLocation() { 
+            var msg = document.getElementById("locationMsg"); 
+            if (!navigator.geolocation) { 
+                msg.textContent = "Geolocation is not supported by your browser."; 
+                return; 
+            } 
+            var options = { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }; 
+             
+            navigator.geolocation.getCurrentPosition( 
+                function (position) { 
+                    msg.textContent = "You are at Lat: " + position.coords.latitude + ", Lng: " + 
+position.coords.longitude; 
+                }, 
+                function (error) { 
+                    if (error.code === error.PERMISSION_DENIED) { 
+                        msg.textContent = "Permission denied. Please allow location access."; 
+                    } else if (error.code === error.TIMEOUT) { 
+                        msg.textContent = "Request timed out. Try again."; 
+                    } else { 
+                        msg.textContent = "Unable to fetch location."; 
+                    } 
+                }, 
+                options 
+            ); 
+        } 
+    </script> 
+</body> 
+</html> 
+ 
+help.html 
+HTML 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <title>Help - Community Event Portal</title> 
+</head> 
+<body> 
+    <h1>Help Page</h1> 
+    <p>For assistance with event registration, contact the city office at 555-1234 or email 
+contact@cityevents.gov.</p> 
+</body> 
+</html> 
+ 
+— 
+
+Exercise 1 — Base template & DevTools 
+The <!DOCTYPE html>, lang="en", and <meta charset="UTF-8"> are already in the 
+head of index.html. Comments like <!-- Navigation -->, <!-- Main -->, <!-- Footer --> mark each section. Save the file, open it in Chrome, right-click → Inspect to see the DOM 
+tree in Elements tab. 
+
+Exercise 2 — Navigation 
+The <nav> bar has anchor links pointing to #home, #events, #contact, which match the id 
+attributes on each <section>. The Help link opens help.html in a new tab via 
+target="_blank". 
+
+Exercise 3 — Welcome banner 
+#welcomeBanner has a blue background set through internal CSS. The special offer text uses 
+an inline style directly on the <span> (red, bold). The .highlight class is reused wherever 
+you want a quick visual emphasis. 
+
+Exercise 4 — Image gallery 
+A 2-row, 3-column table holds six <img> tags, each with alt, title, and a .imgBorder 
+class for consistent styling. Captions sit under each image as plain text (you could swap these 
+for <figcaption> if you restructure with <figure>). 
+
+Exercise 5 — Registration form 
+Covers text, email, date, select, and textarea inputs. placeholder, required, and 
+autofocus are applied. On submit, showConfirmation() writes a message into the 
+<output> element instead of reloading the page. 
+
+Exercise 6 — Event handling 
+● onblur on the phone field runs a regex check for 10 digits. 
+● onchange on the dropdown displays the fee tied to the selected option via a data-fee 
+attribute. 
+● onclick on the submit button pops an alert confirmation. 
+● ondblclick on any gallery image toggles its width between 150px and 300px to 
+simulate "enlarging." 
+● Keyup on the textarea updates a live character counter. 
+
+Exercise 7 — Video 
+The <video> element loads promo.mp4 with controls. oncanplay sets a "Video ready to 
+play" message. window.onbeforeunload warns the user if they try to leave while the name 
+field is filled in but the form hasn't been submitted. 
+
+Exercise 8 — Storage 
+savePreference() writes the selected event type to both localStorage and 
+sessionStorage. On page load, window.onload checks localStorage and pre-selects 
+the saved value. clearPreference() removes both. 
+
+Exercise 9 — Geolocation 
+Clicking "Find Nearby Events" calls getCurrentPosition() with enableHighAccuracy: 
+true. Success shows coordinates; failure branches on PERMISSION_DENIED and TIMEOUT to 
+show a friendly message instead of a raw error. 
+
+Exercise 10 — Debugging 
+Once you have this file running: 
+● Right-click any element → Inspect Element, then edit CSS live in the Styles pane to test 
+changes. 
+● Open the Console tab — add a console.log() inside any of the JS functions above 
+(e.g. inside countChars()) to watch values as you interact with the page. 
+● In Chrome DevTools' Sources tab (or VS Code with the JavaScript Debugger), click a 
+line number to set a breakpoint inside findLocation() or validatePhone(), then 
+reload and step through with the debugger to watch variable values change. 
+Gunashree V 
+111623102066 
+RMKCET 
