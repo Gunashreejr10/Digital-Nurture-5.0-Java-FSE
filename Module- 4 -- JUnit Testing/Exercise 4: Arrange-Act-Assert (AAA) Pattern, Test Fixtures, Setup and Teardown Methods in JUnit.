@@ -1,0 +1,145 @@
+
+Step 1: Understand the Concepts
+Arrange-Act-Assert (AAA) is a way of organizing the body of a single test method into three clear sections:
+
+Arrange — set up the objects and data you need.
+Act — call the method/behavior you're testing.
+Assert — check the result is what you expected.
+
+Test fixture — the fixed, known state (objects, data) that a test needs before it runs. 
+Instead of creating this state inside every single test method, you extract it into shared setup code.
+@Before — a method that runs before every single @Test method in the class. Used to set up the fixture fresh each time (so tests don't affect each other).
+@After — a method that runs after every single @Test method. Used to clean up resources (close files, connections, reset state, etc.).
+
+Step 2: Create a Class to Test
+Under src/main/java/com/example, create BankAccount.java:
+javapackage com.example;
+
+public class BankAccount {
+    private double balance;
+
+    public BankAccount(double initialBalance) {
+        this.balance = initialBalance;
+    }
+
+    public void deposit(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Deposit amount must be positive");
+        }
+        balance += amount;
+    }
+
+    public void withdraw(double amount) {
+        if (amount > balance) {
+            throw new IllegalStateException("Insufficient funds");
+        }
+        balance -= amount;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+}
+
+Step 3: Write the Test Class Using AAA + Setup/Teardown
+Under src/test/java/com/example, create BankAccountTest.java:
+javapackage com.example;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class BankAccountTest {
+
+    private BankAccount account;
+
+    @Before
+    public void setUp() {
+        // Runs before EVERY test method — gives each test a fresh, known starting point
+        account = new BankAccount(100.0);
+        System.out.println("Setup: created account with balance 100.0");
+    }
+
+    @After
+    public void tearDown() {
+        // Runs after EVERY test method — cleanup (here, just for demonstration)
+        account = null;
+        System.out.println("Teardown: account cleared");
+    }
+
+    @Test
+    public void testDeposit() {
+        // Arrange
+        double depositAmount = 50.0;
+
+        // Act
+        account.deposit(depositAmount);
+
+        // Assert
+        assertEquals(150.0, account.getBalance(), 0.001);
+    }
+
+    @Test
+    public void testWithdraw_sufficientFunds() {
+        // Arrange
+        double withdrawAmount = 30.0;
+
+        // Act
+        account.withdraw(withdrawAmount);
+
+        // Assert
+        assertEquals(70.0, account.getBalance(), 0.001);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testWithdraw_insufficientFunds() {
+        // Arrange
+        double withdrawAmount = 500.0; // more than the balance
+
+        // Act
+        account.withdraw(withdrawAmount); // should throw
+
+        // Assert is implicit here — the @Test(expected=...) checks the exception is thrown
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDeposit_negativeAmount() {
+        // Arrange
+        double depositAmount = -10.0;
+
+        // Act
+        account.deposit(depositAmount); // should throw
+    }
+}
+
+Step 4: Run the Tests
+mvn test or run the class in your IDE. Console output will show @Before/@After firing around each test:
+Setup: created account with balance 100.0
+Teardown: account cleared
+Setup: created account with balance 100.0
+Teardown: account cleared
+Setup: created account with balance 100.0
+Teardown: account cleared
+Setup: created account with balance 100.0
+Teardown: account cleared
+
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
+Notice setUp() and tearDown() run once per test method, not once for the whole class 
+— that's what keeps tests independent of each other.
+
+Step 5: Why This Matters
+
+Without @Before/@After                        With @Before/@After
+
+You create new BankAccount                      Created once in setUp(), reused by all tests
+(100.0) inside every test method     --         reused by all tests
+
+Risk of tests accidentally           --         Each test gets a guaranteed fresh object
+sharing/mutating state
+
+Code duplication                     --         DRY (Don't Repeat Yourself) test code
+
+Harder to update fixture             --         Change fixture in one place
+(change in many places)
