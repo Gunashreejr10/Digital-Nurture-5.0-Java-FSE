@@ -1,0 +1,95 @@
+
+
+Setting up JUnit --  Test driven development and Logging framework
+
+Step 1: Create a New Java Project
+In your IDE:
+
+IntelliJ IDEA: File → New → Project → select "Maven" (or "Java" with Maven support) → give it a name like JUnitBasics → Finish.
+Eclipse: File → New → Maven Project → check "Create a simple project" → fill in Group Id / Artifact Id → Finish.
+
+This gives you a standard Maven folder structure:
+JUnitBasics/
+├── pom.xml
+└── src/
+    ├── main/java/      ← your actual classes go here
+    └── test/java/      ← your test classes go here
+
+
+Step 2: Add the JUnit Dependency
+Open pom.xml and add the dependency inside the <dependencies> tag (create that tag if it doesn't exist yet):
+xml<project>
+    ...
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
+Notes:
+
+scope=test means this library is only available when compiling/running tests, not your main application code — 
+keeps your production build lean.
+After saving pom.xml, tell Maven to re-download dependencies:
+
+IntelliJ: click the little Maven "reload" icon (circular arrows) in the Maven tool window.
+Eclipse: right-click project → Maven → Update Project.
+Command line: mvn install
+
+
+
+Using Gradle instead of Maven, add this to build.gradle:
+groovydependencies {
+    testImplementation 'junit:junit:4.13.2'
+}
+test {
+    useJUnit()
+}
+
+
+Step 3: Create a Simple Class to Test
+Under src/main/java, create a class, e.g. Calculator.java:
+javapackage com.example;
+
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int subtract(int a, int b) {
+        return a - b;
+    }
+}
+
+
+Step 4: Create a Test Class
+Under src/test/java (mirror the same package), create CalculatorTest.java:
+javapackage com.example;
+
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+
+public class CalculatorTest {
+
+    @Test
+    public void testAdd() {
+        Calculator calc = new Calculator();
+        int result = calc.add(2, 3);
+        assertEquals(5, result);
+    }
+}
+Key points about this class:
+
+@Test marks a method as a test case — JUnit will run it automatically.
+The class itself needs no special annotation, just plain Java.
+Naming convention: test classes are usually named <ClassName>Test.
+
+Step 5: Run the Test
+
+IntelliJ/Eclipse: right-click the test class or method → "Run".
+Maven CLI: run mvn test from the project root.
+
+You should see output confirming the test passed (green checkmark in IDE, or BUILD SUCCESS / Tests run: 1, Failures: 0 in the terminal).
