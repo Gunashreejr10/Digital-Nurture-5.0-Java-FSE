@@ -1,0 +1,94 @@
+
+Step 1: Understand What Assertions Do
+An assertion is a statement that checks whether a condition is true. If it's not, the test fails immediately and JUnit reports it. Assertions are the actual "verification" part of a test — everything before them just sets up the scenario.
+All standard assertions live in the org.junit.Assert class, so you import them like this:
+javaimport static org.junit.Assert.*;
+
+Step 2: Write the Test Class
+Under src/test/java/com/example, create AssertionsTest.java:
+javapackage com.example;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class AssertionsTest {
+
+    @Test
+    public void testAssertions() {
+        // Assert equals - checks two values are equal
+        assertEquals(5, 2 + 3);
+
+        // Assert true - checks a condition is true
+        assertTrue(5 > 3);
+
+        // Assert false - checks a condition is false
+        assertFalse(5 < 3);
+
+        // Assert null - checks a reference is null
+        assertNull(null);
+
+        // Assert not null - checks a reference is NOT null
+        assertNotNull(new Object());
+    }
+}
+Run it (mvn test or right-click → Run) and you should see it pass:
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
+
+Step 3: Explore More Assertion Types
+The PDF's solution covers the 5 basics, but JUnit 4 offers several more that are worth practicing. Here's a fuller reference with a dedicated test for each:
+javapackage com.example;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class MoreAssertionsTest {
+
+    @Test
+    public void testAssertEquals_withMessage() {
+        // Optional first argument: a custom failure message
+        assertEquals("2 + 3 should equal 5", 5, 2 + 3);
+    }
+
+    @Test
+    public void testAssertArrayEquals() {
+        int[] expected = {1, 2, 3};
+        int[] actual = {1, 2, 3};
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void testAssertSame() {
+        // assertSame checks reference equality (==), not just .equals()
+        String s1 = "hello";
+        String s2 = s1;
+        assertSame(s1, s2);
+    }
+
+    @Test
+    public void testAssertNotSame() {
+        String s1 = new String("hello");
+        String s2 = new String("hello");
+        assertNotSame(s1, s2); // different objects, even though equal in value
+    }
+
+    @Test
+    public void testAssertEquals_doublesWithDelta() {
+        // Floating point comparisons need a "delta" (tolerance)
+        double result = 0.1 + 0.2;
+        assertEquals(0.3, result, 0.0001);
+    }
+}
+
+Step 4: Reference Table of Common Assertions
+AssertionPurposeExampleassertEquals(expected, actual)Checks values are equalassertEquals(5, 2+3)assertTrue(condition)Checks condition is trueassertTrue(5 > 3)assertFalse(condition)Checks condition is falseassertFalse(5 < 3)assertNull(object)Checks object is nullassertNull(myObj)assertNotNull(object)Checks object is not nullassertNotNull(myObj)assertArrayEquals(expected, actual)Checks two arrays are equalassertArrayEquals(arr1, arr2)assertSame(expected, actual)Checks same object referenceassertSame(obj1, obj2)assertNotSame(expected, actual)Checks different object referencesassertNotSame(obj1, obj2)assertEquals(expected, actual, delta)Compares doubles/floats within a toleranceassertEquals(0.3, sum, 0.0001)
+
+Step 5: Try a Failing Assertion (Optional but Useful)
+To really understand how assertions work, deliberately break one and observe the failure output:
+java@Test
+public void testFailingAssertion() {
+    assertEquals(10, 2 + 2); // this will fail: expected 10, got 4
+}
+Run it — you'll see something like:
+java.lang.AssertionError: expected:<10> but was:<4>
+This is useful because it teaches you how to read JUnit failure messages, which you'll rely on constantly in real projects.
