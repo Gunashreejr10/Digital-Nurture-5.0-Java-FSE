@@ -1,0 +1,93 @@
+
+Step 1: Create the Java Class to Test
+Under src/main/java/com/example, create StringUtils.java — a class with a few small, testable methods:
+javapackage com.example;
+
+public class StringUtils {
+    public String reverse(String input) {
+        if (input == null) {
+            return null;
+        }
+        return new StringBuilder(input).reverse().toString();
+    }
+    public boolean isPalindrome(String input) {
+        if (input == null) {
+            return false;
+        }
+        String cleaned = input.toLowerCase();
+        return cleaned.equals(reverse(cleaned));
+    }
+    public int countVowels(String input) {
+        if (input == null) {
+            return 0;
+        }
+        int count = 0;
+        for (char c : input.toLowerCase().toCharArray()) {
+            if ("aeiou".indexOf(c) != -1) {
+                count++;
+            }
+        }
+        return count;
+    }
+}
+Step 2: Write the Test Class
+Under src/test/java/com/example, create StringUtilsTest.java:
+javapackage com.example;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class StringUtilsTest {
+
+    private StringUtils stringUtils = new StringUtils();
+
+    @Test
+    public void testReverse() {
+        String result = stringUtils.reverse("hello");
+        assertEquals("olleh", result);
+    }
+
+    @Test
+    public void testReverse_emptyString() {
+        String result = stringUtils.reverse("");
+        assertEquals("", result);
+    }
+
+    @Test
+    public void testReverse_null() {
+        String result = stringUtils.reverse(null);
+        assertNull(result);
+    }
+
+    @Test
+    public void testIsPalindrome_true() {
+        boolean result = stringUtils.isPalindrome("Racecar");
+        assertTrue(result);
+    }
+
+    @Test
+    public void testIsPalindrome_false() {
+        boolean result = stringUtils.isPalindrome("hello");
+        assertFalse(result);
+    }
+
+    @Test
+    public void testCountVowels() {
+        int result = stringUtils.countVowels("Programming");
+        assertEquals(3, result);
+    }
+
+    @Test
+    public void testCountVowels_noVowels() {
+        int result = stringUtils.countVowels("xyz");
+        assertEquals(0, result);
+    }
+}
+Step 3: Run the Tests
+
+IDE: right-click StringUtilsTest.java → Run 'StringUtilsTest'.
+Maven CLI: mvn test
+
+Expected output (Maven):
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
