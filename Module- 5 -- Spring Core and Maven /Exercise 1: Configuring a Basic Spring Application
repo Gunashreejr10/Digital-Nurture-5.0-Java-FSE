@@ -1,0 +1,62 @@
+
+
+Step 1: Create Maven project + pom.xml
+xml<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.library</groupId>
+    <artifactId>LibraryManagement</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.3.30</version>
+        </dependency>
+    </dependencies>
+</project>
+
+
+Step 2: applicationContext.xml (put this inside src/main/resources)
+xml<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="bookRepository" class="com.library.repository.BookRepository"/>
+    <bean id="bookService" class="com.library.service.BookService"/>
+
+</beans>
+
+
+Step 3: Service and Repository classes
+javapackage com.library.repository;
+
+public class BookRepository {
+    public void save() {
+        System.out.println("Book saved in repository");
+    }
+}
+javapackage com.library.service;
+
+public class BookService {
+    public void addBook() {
+        System.out.println("Book added by service");
+    }
+}
+
+
+Step 4: Main class to run
+javaimport org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class LibraryManagementApplication {
+    public static void main(String[] args) {
+        ApplicationContext context =
+            new ClassPathXmlApplicationContext("applicationContext.xml");
+
+        System.out.println("Spring context loaded successfully!");
+    }
+}
