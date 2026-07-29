@@ -1,0 +1,27 @@
+
+Generate from start.spring.io:
+Group: com.cts (matches the package shown in your screenshots)
+Artifact: greet-service
+Dependencies: Spring Web, Spring Boot DevTools
+
+application.properties:
+properties
+server.port=8080
+spring.application.name=greet-service
+
+GreetController.java:
+
+package com.cts.greet.controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class GreetController {
+
+    @GetMapping("/greet")
+    public String sayHello() {
+        return "Hello World!!";
+    }
+}
+
+Run it, confirm http://localhost:8080/greet returns Hello World!!.
