@@ -1,0 +1,27 @@
+
+In greet-service's pom.xml, add the Eureka client dependency and matching spring-cloud.version property + dependencyManagement block
+
+xml
+<properties>
+    <java.version>17</java.version>
+    <spring-cloud.version>2021.0.3</spring-cloud.version> <!-- match your Spring Boot version -->
+</properties>
+
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>${spring-cloud.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+
+Restart greet-service, refresh http://localhost:8761 — you should see GREET-SERVICE listed as UP.
